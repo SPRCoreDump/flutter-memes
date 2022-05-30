@@ -9,6 +9,9 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'controller.dart';
 
+//reaction button
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'data/example_data.dart' as example;
 
 const String backendip="167.99.234.238:4200";
 late String username="ParkerVR";
@@ -190,37 +193,7 @@ class _MemeScreenState extends State<MemeScreen> {
     username = "${c.username}";
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 22, 22, 22),
-      
-
-      /*
-      // To add text: set FAB.extended, set child as 'icon:'
-      floatingActionButton: FloatingActionButton(
-
-        // Icon
-        child: const Icon(Icons.toggle_off_rounded),
-        foregroundColor: Colors.red,
-        
-        // Background
-        hoverColor: Colors.amberAccent,
-        backgroundColor: Colors.amber,
-
-        // Button Action
-        onPressed: ()  {
-          setState(() {
-            updateImage();
-          });
-        },
-      ), // FloatingActionButton
-      */
-
-      body: /*InteractiveViewer(Container( //BackgroundImage
-        decoration: BoxDecoration(
-          image: DecorationImage(
-          fit: BoxFit.contain,
-          image: NetworkImage(currentMeme.imgurl),
-          ),
-        ),),
-        child: */ 
+      body:
         Stack ( children: <Widget> [
           Center( child: InteractiveViewer(
             child: Image.network(currentMeme.imgurl),
@@ -261,7 +234,31 @@ class _MemeScreenState extends State<MemeScreen> {
                     )
                   ))
                 ]),
-                const Spacer(flex: 18),
+                // Row(children:[
+                //   Builder(
+                //     builder: (context){
+                //       return ReactionButton<String>(
+                //         onReactionChanged: (String? value) {
+                //           ScaffoldMessenger.of(context).showSnackBar(
+                //             SnackBar(content: Text('Selected value: $value')),
+                //           );
+                //         },
+                //         reactions: example.reactions,
+                //         initialReaction: Reaction<String>(
+                //           value: null,
+                //           icon: const Icon(
+                //             Icons.add_reaction
+                //           ),
+                //         ),
+                //         boxColor: Colors.white.withOpacity(0.9),
+                //         boxRadius: 10,
+                //         boxDuration: const Duration(milliseconds: 500),
+                //         itemScaleDuration: const Duration(milliseconds: 200),
+                //       );
+                //     },
+                //   )
+                // ]),
+                const Spacer(flex: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center ,
                   children: [
@@ -323,12 +320,34 @@ class _MemeScreenState extends State<MemeScreen> {
                       },
                       
                     ),
-                    const Spacer(flex: 4),
-                    ]
+                    const Spacer(flex: 1),
+                    ReactionButton<String>(
+                      onReactionChanged: (String? value) {
+                          //add case for removing reaction when same one is selected.
+                          SnackBar(
+                            content: Text('Selected value: $value'),
+                          );
+                        
+                      },
+                      reactions: example.reactions,
+                      initialReaction: Reaction<String>(
+                        value: null,
+                        icon: const Icon(
+                          Icons.add_reaction,
+                        ),
+                      ),
+                      boxColor: Colors.white.withOpacity(0.9),
+                      boxRadius: 10,
+                      boxDuration: Duration(milliseconds: 500),
+                      itemScaleDuration: const Duration(milliseconds: 200),
+                    ),
+                    const Spacer(flex:4),
+                  ]
+    
                   ),
                   const Spacer(),
                 ],
-              
+                
               ),
             ),
           ),
